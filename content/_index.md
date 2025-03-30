@@ -23,7 +23,7 @@ layout: hextra-home
 
 
 <div class="hx-mb-6">
-{{< hextra/hero-button text="Get Started" link="/docs/introduction/" >}}
+{{< hextra/hero-button text="View Project" link="/docs/introduction/" >}}
 </div>
 
 <div class="hx-mt-6"></div>
