@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: https://proxlink.pages.dev/
 languageCode: en-us
 title: ProxLink
 theme: hextra
@@ -18,7 +18,7 @@ markup:
 menu:
   main:
     - name: Documentation
-      pageRef: /docs
+      pageRef: /docs/introduction/
       weight: 1
     - name: About
       pageRef: /about

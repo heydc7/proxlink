@@ -2,27 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/docs/getting-started/</loc>
+    <loc>http://localhost:1313/docs/introduction/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/access/local/</loc>
+    <loc>http://localhost:1313/docs/network/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/configuration/network/</loc>
+    <loc>http://localhost:1313/docs/firewall/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/installation/proxmox/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/installation/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/access/remote/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/installation/vms/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/configuration/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/installation/pfsense/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/access/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/configuration/tailscale/</loc>
+    <loc>http://localhost:1313/docs/vpn/</loc>
   </url><url>
     <loc>http://localhost:1313/about/</loc>
   </url><url>
