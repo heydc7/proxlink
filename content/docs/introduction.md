@@ -17,8 +17,8 @@ ProxLink is more than just a project, ProxLink is my exploration into building a
 
 ## Configuration
 {{< cards >}}
-  {{< card link="/docs/hardware/" title="Hardware Configuration" icon="chip" subtitle="Overview of the hardware powering the ProxLink home lab setup." >}}
-  {{< card link="/docs/network/" title="Network Configuration" icon="globe-alt" subtitle="Managing virtual networks within Proxmox environment." >}}
+  {{< card link="/docs/hardware/" title="Hardware Configuration" icon="chip" subtitle="Overview of the hardware powering the ProxLink." >}}
+  {{< card link="/docs/network/" title="Network Configuration" icon="globe-alt" subtitle="Managing virtual networks within Proxmox." >}}
   {{< card link="/docs/firewall/" title="Firewall Configuration" icon="shield-check" subtitle="Securing the network using pfSense firewall rules." >}}
   {{< card link="/docs/vpn/" title="VPN Configuration" icon="lock-closed" subtitle="Enabling remote access through Tailscale VPN." >}}
 {{< /cards >}}
