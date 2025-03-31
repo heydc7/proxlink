@@ -4,6 +4,8 @@
   <url>
     <loc>http://localhost:1313/docs/introduction/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/hardware/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/network/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/firewall/</loc>
