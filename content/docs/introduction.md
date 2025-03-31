@@ -39,7 +39,6 @@ ProxLink is more than just a project, ProxLink is my exploration into building a
 
 ## Questions or Feedback?
 
-{{< callout emoji="❓" >}}
-  ProxLink is still in active development.
-  Have a question or feedback? Feel free to [open an issue](https://github.com/heydc7/proxlink)!
+{{< callout type="warning" >}}
+  ProxLink is still in **active** development. Questions/Suggestions: [open an issue](https://github.com/heydc7/proxlink)
 {{< /callout >}}
