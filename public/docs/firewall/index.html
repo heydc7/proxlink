@@ -11,27 +11,26 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 <link fetchpriority="low" href="/site.webmanifest" rel="manifest" />
 <title>Firewall Configuration – ProxLink</title>
-  <meta name="description" content=" ⚠️ This section is currently in progress and will be updated soon. " /><link rel="canonical" href="http://localhost:1313/docs/firewall/" itemprop="url" />
+  <meta name="description" content="This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.
+Firewall Overview ProxLink uses pfSense, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:" /><link rel="canonical" href="http://localhost:1313/docs/firewall/" itemprop="url" />
 
 <meta property="og:title" content="Firewall Configuration" />
-<meta property="og:description" content="
-  ⚠️
-
-  
-    This section is currently in progress and will be updated soon.
-  
-" />
+<meta property="og:description" content="This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.
+Firewall Overview
+    ProxLink uses pfSense, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/docs/firewall/" /><meta property="article:section" content="docs" />
 
 
 
   <meta itemprop="name" content="Firewall Configuration">
-  <meta itemprop="description" content="⚠️ This section is currently in progress and will be updated soon.">
-  <meta itemprop="wordCount" content="12">
+  <meta itemprop="description" content="This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.
+Firewall Overview ProxLink uses pfSense, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:">
+  <meta itemprop="wordCount" content="124">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Firewall Configuration">
-  <meta name="twitter:description" content="⚠️ This section is currently in progress and will be updated soon.">
+  <meta name="twitter:description" content="This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.
+Firewall Overview ProxLink uses pfSense, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:">
 
     <link href="/css/compiled/main.css" rel="stylesheet" />
 
@@ -200,6 +199,14 @@
   >Firewall Configuration
     </a>
   
+    <ul class='hx-flex hx-flex-col hx-gap-1 hx-relative before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] dark:before:hx-bg-neutral-800 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-pr-3 rtl:before:hx-right-0 ltr:hx-ml-3 rtl:hx-mr-3'><li>
+              <a
+                href="#"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              ></a>
+            </li>
+          </ul>
+  
               
             </li><li class="hx-flex hx-flex-col "><a
     class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
@@ -267,8 +274,16 @@
 </div></div></aside>
     
 <nav class="hextra-toc hx-order-last hx-hidden hx-w-64 hx-shrink-0 xl:hx-block print:hx-hidden hx-px-4" aria-label="table of contents">
-    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4">
-      <div class=" hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
+    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4"><p class="hx-mb-4 hx-font-semibold hx-tracking-tight">On this page</p><ul>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#firewall-overview">Firewall Overview
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#interface-mapping">Interface Mapping
+        </a>
+      </li></ul>
+      <div class="hx-mt-8 hx-border-t hx-bg-white hx-pt-8 hx-shadow-[0_-12px_16px_white] dark:hx-bg-dark dark:hx-shadow-[0_-12px_16px_#111] hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
         <button aria-hidden="true" id="backToTop" onClick="scrollUp();" class="hx-transition-all hx-duration-75 hx-opacity-0 hx-text-xs hx-font-medium hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-100 contrast-more:hx-text-gray-800 contrast-more:dark:hx-text-gray-50">
           <span>Scroll to top</span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hx-inline ltr:hx-ml-1 rtl:hx-mr-1 hx-h-3.5 hx-w-3.5 hx-border hx-rounded-full hx-border-gray-500 hover:hx-border-gray-900 dark:hx-border-gray-400 dark:hover:hx-border-gray-100 contrast-more:hx-border-gray-800 contrast-more:dark:hx-border-gray-50">
@@ -291,14 +306,52 @@
 
         <div class="content">
           <h1>Firewall Configuration</h1>
-          <div class="hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200">
-  <div class="ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2"><div class="hx-select-none hx-text-xl" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';">⚠️</div></div>
-
-  <div class="hx-w-full hx-min-w-0 hx-leading-7">
-    <div class="hx-mt-6 hx-leading-7 first:hx-mt-0">This section is currently <strong>in progress</strong> and will be updated soon.</div>
-  </div>
-</div>
-
+          <p>This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.</p>
+<h3>Firewall Overview<span class="hx-absolute -hx-mt-20" id="firewall-overview"></span>
+    <a href="#firewall-overview" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>ProxLink uses <strong>pfSense</strong>, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:</p>
+<ul>
+<li><strong>Inter-VLAN Routing</strong></li>
+<li><strong>NAT and Port Forwarding</strong></li>
+<li><strong>Traffic Filtering (Inbound &amp; Outbound)</strong></li>
+<li><strong>VPN Gateway via Tailscale</strong></li>
+<li><strong>Access Control between LAN, DMZ, and WAN</strong></li>
+</ul>
+<h3>Interface Mapping<span class="hx-absolute -hx-mt-20" id="interface-mapping"></span>
+    <a href="#interface-mapping" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><table>
+  <thead>
+      <tr>
+          <th>Interface</th>
+          <th>pfSense Name</th>
+          <th>Bridge</th>
+          <th>Subnet</th>
+          <th>Purpose</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>net0</td>
+          <td>WAN</td>
+          <td>vmbr0</td>
+          <td>192.168.1.0/24</td>
+          <td>External / Internet access</td>
+      </tr>
+      <tr>
+          <td>net1</td>
+          <td>LAN</td>
+          <td>vmbr1</td>
+          <td>192.168.2.0/24</td>
+          <td>Internal trusted network</td>
+      </tr>
+      <tr>
+          <td>net2</td>
+          <td>DMZ</td>
+          <td>vmbr2</td>
+          <td>192.168.3.0/24</td>
+          <td>Exposed services network</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
 
         </div>
         <div class="hx-mt-16"></div>

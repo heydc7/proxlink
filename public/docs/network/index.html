@@ -11,15 +11,110 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 <link fetchpriority="low" href="/site.webmanifest" rel="manifest" />
 <title>Network Configuration – ProxLink</title>
-  <meta name="description" content=" ⚠️ This section is currently in progress and will be updated soon. " /><link rel="canonical" href="http://localhost:1313/docs/network/" itemprop="url" />
+  <meta name="description" content="This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.
+Overview ProxLink uses a virtualized network architecture segmented into three main subnets:
+WAN: 192.168.1.0/24 LAN: 192.168.2.0/24 DMZ: 192.168.3.0/24 A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.
+Topology Components Proxmox VE Host Acts as the virtualization platform. Provides virtual bridges (vmbr0, vmbr1, vmbr2) to connect VMs to pfSense and the physical network. Virtual Bridges (vmbr) vmbr0 – WAN bridge connected to the router (192.168.1.0/24) vmbr1 – LAN bridge for internal VMs (192.168.2.0/24) vmbr2 – DMZ bridge for exposed services (192.168.3.0/24) pfSense Firewall (VM) Interfaces: net0 (WAN): Connected to vmbr0 net1 (LAN): Connected to vmbr1 net2 (DMZ): Connected to vmbr2 Handles inter-VLAN routing, NAT, firewall rules, and VPN access. Internal VMs Ubuntu Desktop VM Connected to LAN via vmbr1 Ubuntu Server Connected to DMZ via vmbr2 External Network Router Default Gateway: 192.168.1.1 Provides internet access for the Proxmox host and pfSense WAN interface. External Access Devices on the 192.168.1.0/24 subnet can access the pfSense WAN. Tailscale provides full-tunnel VPN access, enabling remote access to internal services securely over the internet. VPN Integration (Tailscale) Full-tunnel VPN routes traffic from external devices through pfSense. Ensures encrypted remote access to LAN and DMZ resources. Subnet Breakdown Network Subnet Purpose Bridge Devices WAN 192.168.1.0/24 External access to Internet vmbr0 pfSense (WAN), Router, Proxmox LAN 192.168.2.0/24 Internal/Trusted VM network vmbr1 Ubuntu Desktop VM DMZ 192.168.3.0/24 Semi-trusted services vmbr2 Ubuntu Server " /><link rel="canonical" href="http://localhost:1313/docs/network/" itemprop="url" />
 
 <meta property="og:title" content="Network Configuration" />
-<meta property="og:description" content="
-  ⚠️
+<meta property="og:description" content="This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.
+Overview
+    
+ProxLink uses a virtualized network architecture segmented into three main subnets:
 
+WAN: 192.168.1.0/24
+LAN: 192.168.2.0/24
+DMZ: 192.168.3.0/24
+
+A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.
+Topology Components
+    Proxmox VE Host
+    
+Acts as the virtualization platform.
+Provides virtual bridges (vmbr0, vmbr1, vmbr2) to connect VMs to pfSense and the physical network.
+
+Virtual Bridges (vmbr)
+    
+vmbr0 – WAN bridge connected to the router (192.168.1.0/24)
+vmbr1 – LAN bridge for internal VMs (192.168.2.0/24)
+vmbr2 – DMZ bridge for exposed services (192.168.3.0/24)
+
+
+pfSense Firewall (VM)
+    
+Interfaces:
+
+net0 (WAN): Connected to vmbr0
+net1 (LAN): Connected to vmbr1
+net2 (DMZ): Connected to vmbr2
+
+
+Handles inter-VLAN routing, NAT, firewall rules, and VPN access.
+
+Internal VMs
+    
+Ubuntu Desktop VM
+
+Connected to LAN via vmbr1
+
+
+Ubuntu Server
+
+Connected to DMZ via vmbr2
+
+
+
+External Network
+    Router
+    
+Default Gateway: 192.168.1.1
+Provides internet access for the Proxmox host and pfSense WAN interface.
+
+External Access
+    
+Devices on the 192.168.1.0/24 subnet can access the pfSense WAN.
+Tailscale provides full-tunnel VPN access, enabling remote access to internal services securely over the internet.
+
+VPN Integration (Tailscale)
+    
+Full-tunnel VPN routes traffic from external devices through pfSense.
+Ensures encrypted remote access to LAN and DMZ resources.
+
+Subnet Breakdown
+    
   
-    This section is currently in progress and will be updated soon.
+      
+          Network
+          Subnet
+          Purpose
+          Bridge
+          Devices
+      
   
+  
+      
+          WAN
+          192.168.1.0/24
+          External access to Internet
+          vmbr0
+          pfSense (WAN), Router, Proxmox
+      
+      
+          LAN
+          192.168.2.0/24
+          Internal/Trusted VM network
+          vmbr1
+          Ubuntu Desktop VM
+      
+      
+          DMZ
+          192.168.3.0/24
+          Semi-trusted services
+          vmbr2
+          Ubuntu Server
+      
+  
+
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/docs/network/" /><meta property="article:section" content="docs" />
@@ -27,11 +122,17 @@
 
 
   <meta itemprop="name" content="Network Configuration">
-  <meta itemprop="description" content="⚠️ This section is currently in progress and will be updated soon.">
-  <meta itemprop="wordCount" content="12">
+  <meta itemprop="description" content="This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.
+Overview ProxLink uses a virtualized network architecture segmented into three main subnets:
+WAN: 192.168.1.0/24 LAN: 192.168.2.0/24 DMZ: 192.168.3.0/24 A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.
+Topology Components Proxmox VE Host Acts as the virtualization platform. Provides virtual bridges (vmbr0, vmbr1, vmbr2) to connect VMs to pfSense and the physical network. Virtual Bridges (vmbr) vmbr0 – WAN bridge connected to the router (192.168.1.0/24) vmbr1 – LAN bridge for internal VMs (192.168.2.0/24) vmbr2 – DMZ bridge for exposed services (192.168.3.0/24) pfSense Firewall (VM) Interfaces: net0 (WAN): Connected to vmbr0 net1 (LAN): Connected to vmbr1 net2 (DMZ): Connected to vmbr2 Handles inter-VLAN routing, NAT, firewall rules, and VPN access. Internal VMs Ubuntu Desktop VM Connected to LAN via vmbr1 Ubuntu Server Connected to DMZ via vmbr2 External Network Router Default Gateway: 192.168.1.1 Provides internet access for the Proxmox host and pfSense WAN interface. External Access Devices on the 192.168.1.0/24 subnet can access the pfSense WAN. Tailscale provides full-tunnel VPN access, enabling remote access to internal services securely over the internet. VPN Integration (Tailscale) Full-tunnel VPN routes traffic from external devices through pfSense. Ensures encrypted remote access to LAN and DMZ resources. Subnet Breakdown Network Subnet Purpose Bridge Devices WAN 192.168.1.0/24 External access to Internet vmbr0 pfSense (WAN), Router, Proxmox LAN 192.168.2.0/24 Internal/Trusted VM network vmbr1 Ubuntu Desktop VM DMZ 192.168.3.0/24 Semi-trusted services vmbr2 Ubuntu Server">
+  <meta itemprop="wordCount" content="257">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Network Configuration">
-  <meta name="twitter:description" content="⚠️ This section is currently in progress and will be updated soon.">
+  <meta name="twitter:description" content="This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.
+Overview ProxLink uses a virtualized network architecture segmented into three main subnets:
+WAN: 192.168.1.0/24 LAN: 192.168.2.0/24 DMZ: 192.168.3.0/24 A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.
+Topology Components Proxmox VE Host Acts as the virtualization platform. Provides virtual bridges (vmbr0, vmbr1, vmbr2) to connect VMs to pfSense and the physical network. Virtual Bridges (vmbr) vmbr0 – WAN bridge connected to the router (192.168.1.0/24) vmbr1 – LAN bridge for internal VMs (192.168.2.0/24) vmbr2 – DMZ bridge for exposed services (192.168.3.0/24) pfSense Firewall (VM) Interfaces: net0 (WAN): Connected to vmbr0 net1 (LAN): Connected to vmbr1 net2 (DMZ): Connected to vmbr2 Handles inter-VLAN routing, NAT, firewall rules, and VPN access. Internal VMs Ubuntu Desktop VM Connected to LAN via vmbr1 Ubuntu Server Connected to DMZ via vmbr2 External Network Router Default Gateway: 192.168.1.1 Provides internet access for the Proxmox host and pfSense WAN interface. External Access Devices on the 192.168.1.0/24 subnet can access the pfSense WAN. Tailscale provides full-tunnel VPN access, enabling remote access to internal services securely over the internet. VPN Integration (Tailscale) Full-tunnel VPN routes traffic from external devices through pfSense. Ensures encrypted remote access to LAN and DMZ resources. Subnet Breakdown Network Subnet Purpose Bridge Devices WAN 192.168.1.0/24 External access to Internet vmbr0 pfSense (WAN), Router, Proxmox LAN 192.168.2.0/24 Internal/Trusted VM network vmbr1 Ubuntu Desktop VM DMZ 192.168.3.0/24 Semi-trusted services vmbr2 Ubuntu Server">
 
     <link href="/css/compiled/main.css" rel="stylesheet" />
 
@@ -192,6 +293,14 @@
   >Network Configuration
     </a>
   
+    <ul class='hx-flex hx-flex-col hx-gap-1 hx-relative before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] dark:before:hx-bg-neutral-800 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-pr-3 rtl:before:hx-right-0 ltr:hx-ml-3 rtl:hx-mr-3'><li>
+              <a
+                href="#"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              ></a>
+            </li>
+          </ul>
+  
               
             </li><li class="hx-flex hx-flex-col "><a
     class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
@@ -267,8 +376,52 @@
 </div></div></aside>
     
 <nav class="hextra-toc hx-order-last hx-hidden hx-w-64 hx-shrink-0 xl:hx-block print:hx-hidden hx-px-4" aria-label="table of contents">
-    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4">
-      <div class=" hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
+    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4"><p class="hx-mb-4 hx-font-semibold hx-tracking-tight">On this page</p><ul>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#overview">Overview
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#topology-components">Topology Components
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#proxmox-ve-host">Proxmox VE Host
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#virtual-bridges-vmbr">Virtual Bridges (vmbr)
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#pfsense-firewall-vm">pfSense Firewall (VM)
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#internal-vms">Internal VMs
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#external-network">External Network
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#router">Router
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#external-access">External Access
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#vpn-integration-tailscale">VPN Integration (Tailscale)
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-8 rtl:hx-pr-8 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#subnet-breakdown">Subnet Breakdown
+        </a>
+      </li></ul>
+      <div class="hx-mt-8 hx-border-t hx-bg-white hx-pt-8 hx-shadow-[0_-12px_16px_white] dark:hx-bg-dark dark:hx-shadow-[0_-12px_16px_#111] hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
         <button aria-hidden="true" id="backToTop" onClick="scrollUp();" class="hx-transition-all hx-duration-75 hx-opacity-0 hx-text-xs hx-font-medium hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-100 contrast-more:hx-text-gray-800 contrast-more:dark:hx-text-gray-50">
           <span>Scroll to top</span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hx-inline ltr:hx-ml-1 rtl:hx-mr-1 hx-h-3.5 hx-w-3.5 hx-border hx-rounded-full hx-border-gray-500 hover:hx-border-gray-900 dark:hx-border-gray-400 dark:hover:hx-border-gray-100 contrast-more:hx-border-gray-800 contrast-more:dark:hx-border-gray-50">
@@ -291,14 +444,105 @@
 
         <div class="content">
           <h1>Network Configuration</h1>
-          <div class="hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200">
-  <div class="ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2"><div class="hx-select-none hx-text-xl" style="font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';">⚠️</div></div>
-
-  <div class="hx-w-full hx-min-w-0 hx-leading-7">
-    <div class="hx-mt-6 hx-leading-7 first:hx-mt-0">This section is currently <strong>in progress</strong> and will be updated soon.</div>
-  </div>
-</div>
-
+          <p>This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.</p>
+<h3>Overview<span class="hx-absolute -hx-mt-20" id="overview"></span>
+    <a href="#overview" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><img src="/images/ProxLink.png" alt="Network" loading="lazy" /></p>
+<p>ProxLink uses a virtualized network architecture segmented into three main subnets:</p>
+<ul>
+<li><strong>WAN:</strong> 192.168.1.0/24</li>
+<li><strong>LAN:</strong> 192.168.2.0/24</li>
+<li><strong>DMZ:</strong> 192.168.3.0/24</li>
+</ul>
+<p>A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.</p>
+<h3>Topology Components<span class="hx-absolute -hx-mt-20" id="topology-components"></span>
+    <a href="#topology-components" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><h4>Proxmox VE Host<span class="hx-absolute -hx-mt-20" id="proxmox-ve-host"></span>
+    <a href="#proxmox-ve-host" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li>Acts as the virtualization platform.</li>
+<li>Provides virtual bridges (<code>vmbr0</code>, <code>vmbr1</code>, <code>vmbr2</code>) to connect VMs to pfSense and the physical network.</li>
+</ul>
+<h4>Virtual Bridges (vmbr)<span class="hx-absolute -hx-mt-20" id="virtual-bridges-vmbr"></span>
+    <a href="#virtual-bridges-vmbr" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li><strong>vmbr0</strong> – WAN bridge connected to the router (<code>192.168.1.0/24</code>)</li>
+<li><strong>vmbr1</strong> – LAN bridge for internal VMs (<code>192.168.2.0/24</code>)</li>
+<li><strong>vmbr2</strong> – DMZ bridge for exposed services (<code>192.168.3.0/24</code>)</li>
+</ul>
+<hr>
+<h4>pfSense Firewall (VM)<span class="hx-absolute -hx-mt-20" id="pfsense-firewall-vm"></span>
+    <a href="#pfsense-firewall-vm" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li>Interfaces:
+<ul>
+<li><strong>net0 (WAN):</strong> Connected to <code>vmbr0</code></li>
+<li><strong>net1 (LAN):</strong> Connected to <code>vmbr1</code></li>
+<li><strong>net2 (DMZ):</strong> Connected to <code>vmbr2</code></li>
+</ul>
+</li>
+<li>Handles inter-VLAN routing, NAT, firewall rules, and VPN access.</li>
+</ul>
+<h4>Internal VMs<span class="hx-absolute -hx-mt-20" id="internal-vms"></span>
+    <a href="#internal-vms" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li><strong>Ubuntu Desktop VM</strong>
+<ul>
+<li>Connected to LAN via <code>vmbr1</code></li>
+</ul>
+</li>
+<li><strong>Ubuntu Server</strong>
+<ul>
+<li>Connected to DMZ via <code>vmbr2</code></li>
+</ul>
+</li>
+</ul>
+<h3>External Network<span class="hx-absolute -hx-mt-20" id="external-network"></span>
+    <a href="#external-network" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><h4>Router<span class="hx-absolute -hx-mt-20" id="router"></span>
+    <a href="#router" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li>Default Gateway: <code>192.168.1.1</code></li>
+<li>Provides internet access for the Proxmox host and pfSense WAN interface.</li>
+</ul>
+<h4>External Access<span class="hx-absolute -hx-mt-20" id="external-access"></span>
+    <a href="#external-access" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li>Devices on the <code>192.168.1.0/24</code> subnet can access the pfSense WAN.</li>
+<li><strong>Tailscale</strong> provides full-tunnel VPN access, enabling remote access to internal services securely over the internet.</li>
+</ul>
+<h4>VPN Integration (Tailscale)<span class="hx-absolute -hx-mt-20" id="vpn-integration-tailscale"></span>
+    <a href="#vpn-integration-tailscale" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><ul>
+<li>Full-tunnel VPN routes traffic from external devices through pfSense.</li>
+<li>Ensures encrypted remote access to LAN and DMZ resources.</li>
+</ul>
+<h4>Subnet Breakdown<span class="hx-absolute -hx-mt-20" id="subnet-breakdown"></span>
+    <a href="#subnet-breakdown" class="subheading-anchor" aria-label="Permalink for this section"></a></h4><table>
+  <thead>
+      <tr>
+          <th>Network</th>
+          <th>Subnet</th>
+          <th>Purpose</th>
+          <th>Bridge</th>
+          <th>Devices</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>WAN</td>
+          <td>192.168.1.0/24</td>
+          <td>External access to Internet</td>
+          <td>vmbr0</td>
+          <td>pfSense (WAN), Router, Proxmox</td>
+      </tr>
+      <tr>
+          <td>LAN</td>
+          <td>192.168.2.0/24</td>
+          <td>Internal/Trusted VM network</td>
+          <td>vmbr1</td>
+          <td>Ubuntu Desktop VM</td>
+      </tr>
+      <tr>
+          <td>DMZ</td>
+          <td>192.168.3.0/24</td>
+          <td>Semi-trusted services</td>
+          <td>vmbr2</td>
+          <td>Ubuntu Server</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
 
         </div>
         <div class="hx-mt-16"></div>

@@ -130,14 +130,105 @@ Have a question or feedback? Feel free to &lt;a href=&#34;https://github.com/hey
       <description>
         
         
-        &lt;div class=&#34;hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200&#34;&gt;
-  &lt;div class=&#34;ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2&#34;&gt;&lt;div class=&#34;hx-select-none hx-text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;⚠️&lt;/div&gt;&lt;/div&gt;
-
-  &lt;div class=&#34;hx-w-full hx-min-w-0 hx-leading-7&#34;&gt;
-    &lt;div class=&#34;hx-mt-6 hx-leading-7 first:hx-mt-0&#34;&gt;This section is currently &lt;strong&gt;in progress&lt;/strong&gt; and will be updated soon.&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
+        &lt;p&gt;This guide outlines how the network topology is structured within the ProxLink homelab infrastructure, which is powered by Proxmox VE, pfSense, and Tailscale.&lt;/p&gt;
+&lt;h3&gt;Overview&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;overview&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#overview&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/images/ProxLink.png&#34; alt=&#34;Network&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;ProxLink uses a virtualized network architecture segmented into three main subnets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;WAN:&lt;/strong&gt; 192.168.1.0/24&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LAN:&lt;/strong&gt; 192.168.2.0/24&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DMZ:&lt;/strong&gt; 192.168.3.0/24&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A pfSense virtual firewall routes and filters traffic between these networks, enabling secure connectivity, isolation, and full-tunnel VPN access.&lt;/p&gt;
+&lt;h3&gt;Topology Components&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;topology-components&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#topology-components&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;h4&gt;Proxmox VE Host&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;proxmox-ve-host&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#proxmox-ve-host&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Acts as the virtualization platform.&lt;/li&gt;
+&lt;li&gt;Provides virtual bridges (&lt;code&gt;vmbr0&lt;/code&gt;, &lt;code&gt;vmbr1&lt;/code&gt;, &lt;code&gt;vmbr2&lt;/code&gt;) to connect VMs to pfSense and the physical network.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Virtual Bridges (vmbr)&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;virtual-bridges-vmbr&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#virtual-bridges-vmbr&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;vmbr0&lt;/strong&gt; – WAN bridge connected to the router (&lt;code&gt;192.168.1.0/24&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;vmbr1&lt;/strong&gt; – LAN bridge for internal VMs (&lt;code&gt;192.168.2.0/24&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;vmbr2&lt;/strong&gt; – DMZ bridge for exposed services (&lt;code&gt;192.168.3.0/24&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h4&gt;pfSense Firewall (VM)&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;pfsense-firewall-vm&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#pfsense-firewall-vm&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Interfaces:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;net0 (WAN):&lt;/strong&gt; Connected to &lt;code&gt;vmbr0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;net1 (LAN):&lt;/strong&gt; Connected to &lt;code&gt;vmbr1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;net2 (DMZ):&lt;/strong&gt; Connected to &lt;code&gt;vmbr2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Handles inter-VLAN routing, NAT, firewall rules, and VPN access.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Internal VMs&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;internal-vms&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#internal-vms&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Ubuntu Desktop VM&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Connected to LAN via &lt;code&gt;vmbr1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ubuntu Server&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Connected to DMZ via &lt;code&gt;vmbr2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;External Network&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;external-network&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#external-network&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;h4&gt;Router&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;router&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#router&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Default Gateway: &lt;code&gt;192.168.1.1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Provides internet access for the Proxmox host and pfSense WAN interface.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;External Access&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;external-access&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#external-access&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Devices on the &lt;code&gt;192.168.1.0/24&lt;/code&gt; subnet can access the pfSense WAN.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tailscale&lt;/strong&gt; provides full-tunnel VPN access, enabling remote access to internal services securely over the internet.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;VPN Integration (Tailscale)&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;vpn-integration-tailscale&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#vpn-integration-tailscale&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;Full-tunnel VPN routes traffic from external devices through pfSense.&lt;/li&gt;
+&lt;li&gt;Ensures encrypted remote access to LAN and DMZ resources.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Subnet Breakdown&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;subnet-breakdown&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#subnet-breakdown&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Network&lt;/th&gt;
+          &lt;th&gt;Subnet&lt;/th&gt;
+          &lt;th&gt;Purpose&lt;/th&gt;
+          &lt;th&gt;Bridge&lt;/th&gt;
+          &lt;th&gt;Devices&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;WAN&lt;/td&gt;
+          &lt;td&gt;192.168.1.0/24&lt;/td&gt;
+          &lt;td&gt;External access to Internet&lt;/td&gt;
+          &lt;td&gt;vmbr0&lt;/td&gt;
+          &lt;td&gt;pfSense (WAN), Router, Proxmox&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;LAN&lt;/td&gt;
+          &lt;td&gt;192.168.2.0/24&lt;/td&gt;
+          &lt;td&gt;Internal/Trusted VM network&lt;/td&gt;
+          &lt;td&gt;vmbr1&lt;/td&gt;
+          &lt;td&gt;Ubuntu Desktop VM&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;DMZ&lt;/td&gt;
+          &lt;td&gt;192.168.3.0/24&lt;/td&gt;
+          &lt;td&gt;Semi-trusted services&lt;/td&gt;
+          &lt;td&gt;vmbr2&lt;/td&gt;
+          &lt;td&gt;Ubuntu Server&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
 
       </description>
     </item>
@@ -151,14 +242,52 @@ Have a question or feedback? Feel free to &lt;a href=&#34;https://github.com/hey
       <description>
         
         
-        &lt;div class=&#34;hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200&#34;&gt;
-  &lt;div class=&#34;ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2&#34;&gt;&lt;div class=&#34;hx-select-none hx-text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;⚠️&lt;/div&gt;&lt;/div&gt;
-
-  &lt;div class=&#34;hx-w-full hx-min-w-0 hx-leading-7&#34;&gt;
-    &lt;div class=&#34;hx-mt-6 hx-leading-7 first:hx-mt-0&#34;&gt;This section is currently &lt;strong&gt;in progress&lt;/strong&gt; and will be updated soon.&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
+        &lt;p&gt;This guide covers the Firewall Configuration for the ProxLink homelab, utilizing pfSense as the primary firewall and router. The firewall sits at the core of the ProxLink network topology and manages traffic between WAN, LAN, and DMZ subnets, as well as access control for services and remote VPN connections via Tailscale.&lt;/p&gt;
+&lt;h3&gt;Firewall Overview&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;firewall-overview&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#firewall-overview&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;ProxLink uses &lt;strong&gt;pfSense&lt;/strong&gt;, a robust open-source firewall/router software, deployed as a virtual machine inside the Proxmox environment. pfSense handles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inter-VLAN Routing&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NAT and Port Forwarding&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Traffic Filtering (Inbound &amp;amp; Outbound)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;VPN Gateway via Tailscale&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Access Control between LAN, DMZ, and WAN&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Interface Mapping&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;interface-mapping&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#interface-mapping&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Interface&lt;/th&gt;
+          &lt;th&gt;pfSense Name&lt;/th&gt;
+          &lt;th&gt;Bridge&lt;/th&gt;
+          &lt;th&gt;Subnet&lt;/th&gt;
+          &lt;th&gt;Purpose&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;net0&lt;/td&gt;
+          &lt;td&gt;WAN&lt;/td&gt;
+          &lt;td&gt;vmbr0&lt;/td&gt;
+          &lt;td&gt;192.168.1.0/24&lt;/td&gt;
+          &lt;td&gt;External / Internet access&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;net1&lt;/td&gt;
+          &lt;td&gt;LAN&lt;/td&gt;
+          &lt;td&gt;vmbr1&lt;/td&gt;
+          &lt;td&gt;192.168.2.0/24&lt;/td&gt;
+          &lt;td&gt;Internal trusted network&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;net2&lt;/td&gt;
+          &lt;td&gt;DMZ&lt;/td&gt;
+          &lt;td&gt;vmbr2&lt;/td&gt;
+          &lt;td&gt;192.168.3.0/24&lt;/td&gt;
+          &lt;td&gt;Exposed services network&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
 
       </description>
     </item>
@@ -172,14 +301,21 @@ Have a question or feedback? Feel free to &lt;a href=&#34;https://github.com/hey
       <description>
         
         
-        &lt;div class=&#34;hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200&#34;&gt;
-  &lt;div class=&#34;ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2&#34;&gt;&lt;div class=&#34;hx-select-none hx-text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;⚠️&lt;/div&gt;&lt;/div&gt;
-
-  &lt;div class=&#34;hx-w-full hx-min-w-0 hx-leading-7&#34;&gt;
-    &lt;div class=&#34;hx-mt-6 hx-leading-7 first:hx-mt-0&#34;&gt;This section is currently &lt;strong&gt;in progress&lt;/strong&gt; and will be updated soon.&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
+        &lt;p&gt;This section covers how VPN access is configured in the ProxLink homelab using Tailscale. Tailscale provides secure, encrypted, and authenticated remote access to internal services across the LAN and DMZ without the complexity of traditional VPNs.&lt;/p&gt;
+&lt;h3&gt;Why Tailscale?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;why-tailscale&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#why-tailscale&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Tailscale is a mesh VPN built on &lt;strong&gt;WireGuard&lt;/strong&gt;, designed to simplify secure networking across devices and networks. It is ideal for homelabs because:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Zero-config&lt;/strong&gt; networking over the internet&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Device-level access control (ACLs)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Works through NAT/firewalls&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Supports full-tunnel VPN routing&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;ProxLink VPN Topology&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;proxlink-vpn-topology&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#proxlink-vpn-topology&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Tailscale is installed directly on the &lt;strong&gt;pfSense VM&lt;/strong&gt; (via a Linux package or Tailscale daemon).&lt;/li&gt;
+&lt;li&gt;pfSense acts as a &lt;strong&gt;subnet router&lt;/strong&gt; and &lt;strong&gt;exit node&lt;/strong&gt;, routing all VPN traffic to internal networks.&lt;/li&gt;
+&lt;li&gt;Remote clients connect to the Tailscale network and gain access to the &lt;strong&gt;LAN&lt;/strong&gt; (&lt;code&gt;192.168.2.0/24&lt;/code&gt;) and optionally the &lt;strong&gt;DMZ&lt;/strong&gt; (&lt;code&gt;192.168.3.0/24&lt;/code&gt;).&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
