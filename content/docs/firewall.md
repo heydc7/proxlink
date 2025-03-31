@@ -22,4 +22,3 @@ ProxLink uses **pfSense**, a robust open-source firewall/router software, deploy
 | net0     | WAN           | vmbr0  | 192.168.1.0/24 | External / Internet access |
 | net1     | LAN           | vmbr1  | 192.168.2.0/24 | Internal trusted network |
 | net2     | DMZ           | vmbr2  | 192.168.3.0/24 | Exposed services network |
----

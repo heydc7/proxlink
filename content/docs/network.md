@@ -72,4 +72,3 @@ A pfSense virtual firewall routes and filters traffic between these networks, en
 | WAN    | 192.168.1.0/24 | External access to Internet | vmbr0 | pfSense (WAN), Router, Proxmox |
 | LAN    | 192.168.2.0/24 | Internal/Trusted VM network | vmbr1 | Ubuntu Desktop VM |
 | DMZ    | 192.168.3.0/24 | Semi-trusted services | vmbr2 | Ubuntu Server |
----
